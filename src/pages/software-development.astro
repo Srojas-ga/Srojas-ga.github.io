@@ -11,24 +11,13 @@ const projects = [
       "Contributed to RESTful API and GraphQL design",
       "Led a team of three engineers for several months"
     ],
-    tech: ["React", "Next.js", "Node.js", "MongoDB", "Heroku"]
   },
-  {
-    title: "CloudMason",
-    desc: [
-      "Contributed to microservices architecture design for email distribution system",
-      "Created a backend infrastructure with queues and an event bus",
-      "Designed to handle a high volume ~3 million emails per day"
-    ],
-    tech: ["Node.js", "RabbitMQ", "Docker", "Kubernetes"]
-  },
-  
+ 
 ];
 ---
 
 <!DOCTYPE html>
-<html
->
+<html>
   <Header title="Personal Info | Santiago Rojas" />
   <body>
     <div class="content">
@@ -42,9 +31,27 @@ const projects = [
             >
           </div>
           <div class="content-container">
-            <h1>Software Development</h1>
+            <h1>Personal Info</h1>
             <section class="items-container">
                 <div class="resouce-items">
+
+                  <!-- Video de YouTube -->
+                  <iframe
+                    width="560"
+                    height="315"
+                    src="https://www.youtube.com/embed/TU_ID_DE_VIDEO"
+                    title="YouTube video"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                  ></iframe>
+
+                  <!-- Foto desde el computador -->
+                  <img
+                    src="/assets/tu-foto.jpg"
+                    alt="Personal photo"
+                  />
+
                     {projects.map(project => (
                       <Project 
                         title={project.title} 
