@@ -9,11 +9,9 @@ const projects = [
       "Sixth semester student from Systems Engenieer",
       "Learning about DataBases and Oracle",
       "part of the Nexus Group"
-    
     ],
     tech: []
   },
- 
 ];
 ---
 
@@ -36,6 +34,9 @@ const projects = [
             <section class="items-container">
                 <div class="resouce-items">
 
+                  <!-- Foto desde el computador -->
+                  <img src="/assets/FotoPersonal.jpeg" alt="Personal photo" style="width: 200px; border-radius: 8px;" />
+
                   <!-- Video de YouTube -->
                   <iframe
                     width="560"
@@ -46,9 +47,6 @@ const projects = [
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowfullscreen
                   ></iframe>
-
-                  <!-- Foto desde el computador -->
-                  <img src="/assets/FotoPersonal.jpeg" alt="Personal photo" />
 
                     {projects.map(project => (
                       <Project 
