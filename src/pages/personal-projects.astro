@@ -10,7 +10,8 @@ const classScripts = [
       "Consultas SQL fundamentales sobre bases de datos relacionales",
       "Uso de SELECT, JOIN, GROUP BY, HAVING y subconsultas",
     ],
-    tech: ["SQL", "Oracle"]
+    tech: ["SQL", "Oracle"],
+    link: "/assets/Scripts/01.Consultas.sql"
   },
   {
     title: "02. Bloques Anónimos PL/SQL",
@@ -18,7 +19,8 @@ const classScripts = [
       "Bloques anónimos en PL/SQL para lógica procedimental",
       "Manejo de variables, condicionales y bucles en Oracle",
     ],
-    tech: ["PL/SQL", "Oracle"]
+    tech: ["PL/SQL", "Oracle"],
+    link: "/assets/Scripts/02.bloquesAnonimos.sql"
   },
   {
     title: "03. Procedimientos Almacenados",
@@ -26,7 +28,8 @@ const classScripts = [
       "Procedimientos almacenados para encapsular lógica de negocio",
       "Uso de parámetros IN, OUT e IN OUT en Oracle PL/SQL",
     ],
-    tech: ["PL/SQL", "Oracle"]
+    tech: ["PL/SQL", "Oracle"],
+    link: "/assets/Scripts/03.procedimientos.sql"
   },
   {
     title: "04. Triggers y Excepciones",
@@ -34,7 +37,8 @@ const classScripts = [
       "Triggers para automatizar acciones ante eventos en la base de datos",
       "Manejo de excepciones predefinidas y definidas por el usuario",
     ],
-    tech: ["PL/SQL", "Oracle"]
+    tech: ["PL/SQL", "Oracle"],
+    link: "/assets/Scripts/04.triggersExcepciones.sql"
   }
 ];
 
@@ -46,7 +50,8 @@ const talleres = [
       "Uso de CTEs, DENSE_RANK, SAVEPOINT y control transaccional",
       "Universidad El Bosque",
     ],
-    tech: ["SQL", "Oracle"]
+    tech: ["SQL", "Oracle"],
+    link: "/assets/Scripts/Taller_SQL_SantiagoRojas_EstefaniaParedes.sql"
   },
   {
     title: "Taller PL/SQL - Santiago Rojas & Estefanía Paredes",
@@ -55,7 +60,8 @@ const talleres = [
       "Manejo de excepciones y diseño de paquetes en Oracle",
       "Universidad El Bosque",
     ],
-    tech: ["PL/SQL", "Oracle"]
+    tech: ["PL/SQL", "Oracle"],
+    link: "/assets/Scripts/Taller_PLSQL_SantiagoRojas_EstefaniaParedes.sql"
   }
 ];
 ---
@@ -80,20 +86,30 @@ const talleres = [
 
                 <h3>Class Exercises</h3>
                 {classScripts.map(script => (
-                  <Project
-                    title={script.title}
-                    desc={script.desc}
-                    tech={script.tech}
-                  />
+                  <div>
+                    <Project
+                      title={script.title}
+                      desc={script.desc}
+                      tech={script.tech}
+                    />
+                    <a href={script.link} download style="display:inline-block; margin-bottom:2rem; padding: 0.5rem 1rem; border: 1px solid white; color:white; text-decoration:none; border-radius:4px;">
+                      ⬇ Descargar
+                    </a>
+                  </div>
                 ))}
 
                 <h3>Workshops</h3>
                 {talleres.map(taller => (
-                  <Project
-                    title={taller.title}
-                    desc={taller.desc}
-                    tech={taller.tech}
-                  />
+                  <div>
+                    <Project
+                      title={taller.title}
+                      desc={taller.desc}
+                      tech={taller.tech}
+                    />
+                    <a href={taller.link} download style="display:inline-block; margin-bottom:2rem; padding: 0.5rem 1rem; border: 1px solid white; color:white; text-decoration:none; border-radius:4px;">
+                      ⬇ Descargar
+                    </a>
+                  </div>
                 ))}
 
                 <h3>Project Progress</h3>
