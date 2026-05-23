@@ -2,50 +2,109 @@
 import Header from '../components/Header.astro';
 import Project from '../components/Project.astro';
 import Sidebar from '../components/Sidebar.astro';
-const projects = [
- 
+
+const classScripts = [
+  {
+    title: "01. Consultas SQL",
+    desc: [
+      "Consultas SQL fundamentales sobre bases de datos relacionales",
+      "Uso de SELECT, JOIN, GROUP BY, HAVING y subconsultas",
+    ],
+    tech: ["SQL", "Oracle"]
+  },
+  {
+    title: "02. Bloques Anónimos PL/SQL",
+    desc: [
+      "Bloques anónimos en PL/SQL para lógica procedimental",
+      "Manejo de variables, condicionales y bucles en Oracle",
+    ],
+    tech: ["PL/SQL", "Oracle"]
+  },
+  {
+    title: "03. Procedimientos Almacenados",
+    desc: [
+      "Procedimientos almacenados para encapsular lógica de negocio",
+      "Uso de parámetros IN, OUT e IN OUT en Oracle PL/SQL",
+    ],
+    tech: ["PL/SQL", "Oracle"]
+  },
+  {
+    title: "04. Triggers y Excepciones",
+    desc: [
+      "Triggers para automatizar acciones ante eventos en la base de datos",
+      "Manejo de excepciones predefinidas y definidas por el usuario",
+    ],
+    tech: ["PL/SQL", "Oracle"]
+  }
+];
+
+const talleres = [
+  {
+    title: "Taller SQL - Santiago Rojas & Estefanía Paredes",
+    desc: [
+      "Taller de SQL con consultas avanzadas sobre procesos de nómina",
+      "Uso de CTEs, DENSE_RANK, SAVEPOINT y control transaccional",
+      "Universidad El Bosque",
+    ],
+    tech: ["SQL", "Oracle"]
+  },
+  {
+    title: "Taller PL/SQL - Santiago Rojas & Estefanía Paredes",
+    desc: [
+      "Taller completo de PL/SQL con procedimientos, funciones y cursores",
+      "Manejo de excepciones y diseño de paquetes en Oracle",
+      "Universidad El Bosque",
+    ],
+    tech: ["PL/SQL", "Oracle"]
+  }
 ];
 ---
-
 <!DOCTYPE html>
 <html>
   <Header title="Evidence | Santiago Rojas" />
   <body>
     <div class="content">
-        <Sidebar selectedItem="personal-projects" />
+      <Sidebar selectedItem="personal-projects" />
       <nav class="main">
         <div class="container">
           <div class="back-nav-container">
-            <a href="/" class="back-nav-button w-inline-block"
-              ><img src="/assets/back.svg" loading="lazy" alt="" class="back-nav-img" />
-              <div>Back</div></a
-            >
+            <a href="/" class="back-nav-button w-inline-block">
+              <img src="/assets/back.svg" loading="lazy" alt="" class="back-nav-img" />
+              <div>Back</div>
+            </a>
           </div>
           <div class="content-container">
             <h1>Evidence</h1>
             <section class="items-container">
-                <div class="resouce-items">
+              <div class="resouce-items">
 
-                  <h3>Class Exercises</h3>
-                  <!-- Aquí subes los scripts de clase -->
+                <h3>Class Exercises</h3>
+                {classScripts.map(script => (
+                  <Project
+                    title={script.title}
+                    desc={script.desc}
+                    tech={script.tech}
+                  />
+                ))}
 
-                  <h3>Project Progress</h3>
-                  <!-- Aquí subes los avances del proyecto -->
+                <h3>Workshops</h3>
+                {talleres.map(taller => (
+                  <Project
+                    title={taller.title}
+                    desc={taller.desc}
+                    tech={taller.tech}
+                  />
+                ))}
 
-                    {projects.map(project => (
-                      <Project 
-                        title={project.title} 
-                        desc={project.desc}
-                        tech={project.tech}
-                      />
-                    ))}
-                  </div>
+                <h3>Project Progress</h3>
+                <!-- Aquí subes los avances del proyecto -->
+
+              </div>
             </section>
           </div>
         </div>
       </nav>
     </div>
-
-    <!--[if lte IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
+    <!--[if lte IE 9]><script src="//cdnjs.cloudflare.com/ajax/files/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
   </body>
 </html>
