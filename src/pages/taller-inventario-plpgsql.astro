@@ -1,0 +1,167 @@
+---
+// ============================================================================
+// PÁGINA: Taller – Sistema Básico de Inventario (PL/pgSQL)
+// ----------------------------------------------------------------------------
+// Esta página se genera como una ruta nueva de tu sitio Astro.
+// Al guardar este archivo como:
+//    src/pages/taller-inventario-plpgsql.astro
+// quedará disponible automáticamente en:
+//    https://srojas-ga.github.io/taller-inventario-plpgsql
+//
+// Si tu proyecto (Codefolio) usa un layout compartido (menú, footer, fuentes,
+// tema oscuro/claro, etc.), reemplaza el <html>...</html> de abajo por tu
+// layout habitual, por ejemplo:
+//
+//   import BaseLayout from "../layouts/BaseLayout.astro";
+//   ---
+//   <BaseLayout title="Taller – Sistema Básico de Inventario (PL/pgSQL)">
+//     ...todo el contenido de <main> tal cual...
+//   </BaseLayout>
+//
+// Revisa el nombre real de tu layout en src/layouts/ y ajusta el import.
+// ============================================================================
+---
+
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Taller – Sistema Básico de Inventario (PL/pgSQL)</title>
+  </head>
+  <body>
+    <main class="taller-container">
+      <a href="/" class="volver">← Volver al portafolio</a>
+
+      <header>
+        <h1>Taller – Programación Extendida I</h1>
+        <h2>Sistema Básico de Inventario – PL/pgSQL</h2>
+        <p><em>Entrega: E-Portafolio</em></p>
+      </header>
+
+      <!-- ================================================================
+           1. INTRODUCCIÓN
+           - Qué es PL/pgSQL
+           - Diferencia entre función y procedimiento
+      ================================================================= -->
+      <section id="introduccion">
+        <h3>1️⃣ Introducción</h3>
+        <p>
+          <!-- TODO: explicar qué es PL/pgSQL y la diferencia entre función y procedimiento -->
+        </p>
+      </section>
+
+      <!-- ================================================================
+           2. DESARROLLO TÉCNICO
+           - Parte 1: Modelo de datos (tabla productos + preguntas)
+           - Parte 2: Función consultar_stock (SELECT INTO, RAISE EXCEPTION)
+           - Parte 3: Función validar_disponibilidad
+           - Parte 4: Procedimiento descontar_inventario
+      ================================================================= -->
+      <section id="desarrollo-tecnico">
+        <h3>2️⃣ Desarrollo técnico</h3>
+
+        <h4>🔴 Parte 1 – Modelo de Datos</h4>
+        <pre><code>-- TODO: pegar aquí el CREATE TABLE productos + INSERTs de prueba</code></pre>
+        <p>
+          <!-- TODO: responder
+               1. ¿Por qué el precio tiene restricción CHECK?
+               2. ¿Por qué el stock no puede ser negativo?
+               3. ¿Qué problema empresarial se evita con estas restricciones? -->
+        </p>
+
+        <h4>🟢 Parte 2 – Función: Consultar Stock</h4>
+        <pre><code>-- TODO: pegar aquí la función de consulta de stock</code></pre>
+        <p>
+          <!-- TODO: explicar qué hace SELECT INTO y qué pasa si el producto no existe -->
+        </p>
+
+        <h4>🟡 Parte 3 – Función: Validar Disponibilidad</h4>
+        <pre><code>-- TODO: pegar aquí la función de validación</code></pre>
+        <p>
+          <!-- TODO: responder
+               1. ¿Por qué es mejor validar antes de actualizar?
+               2. ¿Qué pasaría si no existiera esta función? -->
+        </p>
+
+        <h4>🔵 Parte 4 – Procedimiento: Descontar Inventario</h4>
+        <pre><code>-- TODO: pegar aquí el procedimiento de descuento de inventario</code></pre>
+        <p>
+          <!-- TODO: responder
+               1. ¿Por qué se implementa como procedimiento y no como función?
+               2. ¿Qué ocurre si falla después de iniciar la operación?
+               3. ¿Se mantiene la consistencia del inventario? -->
+        </p>
+      </section>
+
+      <!-- ================================================================
+           3. PRUEBAS REALIZADAS
+           - Caso exitoso / stock insuficiente / producto inexistente
+      ================================================================= -->
+      <section id="pruebas">
+        <h3>3️⃣ Pruebas realizadas</h3>
+
+        <h4>🧪 Caso 1 – Stock suficiente</h4>
+        <p><!-- TODO: qué ocurrió, mensaje del sistema, ¿se modificó la BD? --></p>
+
+        <h4>🧪 Caso 2 – Stock insuficiente</h4>
+        <p><!-- TODO: qué ocurrió, mensaje del sistema, ¿se modificó la BD? --></p>
+
+        <h4>🧪 Caso 3 – Producto inexistente</h4>
+        <p><!-- TODO: qué ocurrió, mensaje del sistema, ¿se modificó la BD? --></p>
+
+        <!-- TODO: si quieres, agrega aquí capturas de pantalla como evidencia,
+             por ejemplo: <img src="/assets/taller-inventario/prueba1.png" alt="Caso 1" /> -->
+      </section>
+
+      <!-- ================================================================
+           4. ANÁLISIS CRÍTICO
+      ================================================================= -->
+      <section id="analisis-critico">
+        <h3>4️⃣ Análisis crítico</h3>
+        <p>
+          <!-- TODO: reflexión personal sobre dificultades encontradas,
+               errores de sintaxis y aprendizaje obtenido -->
+        </p>
+      </section>
+
+      <!-- ================================================================
+           5. CONCLUSIONES
+      ================================================================= -->
+      <section id="conclusiones">
+        <h3>5️⃣ Conclusiones</h3>
+        <p>
+          <!-- TODO: conclusiones en palabras propias -->
+        </p>
+      </section>
+    </main>
+
+    <style>
+      .taller-container {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem 4rem;
+        font-family: system-ui, sans-serif;
+        line-height: 1.6;
+      }
+      .volver {
+        display: inline-block;
+        margin-bottom: 1.5rem;
+        text-decoration: none;
+      }
+      header {
+        margin-bottom: 2rem;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 1rem;
+      }
+      section {
+        margin-bottom: 2.5rem;
+      }
+      pre {
+        background: #f4f4f4;
+        padding: 1rem;
+        border-radius: 6px;
+        overflow-x: auto;
+      }
+    </style>
+  </body>
+</html>
