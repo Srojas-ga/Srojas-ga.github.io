@@ -6,13 +6,6 @@
 //    src/pages/taller-inventario-plpgsql.astro
 // y quedará disponible en:
 //    https://srojas-ga.github.io/taller-inventario-plpgsql
-//
-// Si tu proyecto usa un layout compartido, reemplaza el <html>...</html> por:
-//   import BaseLayout from "../layouts/BaseLayout.astro";
-//   ---
-//   <BaseLayout title="Taller – Sistema Básico de Inventario (PL/pgSQL)">
-//     ...todo el contenido de <main> tal cual...
-//   </BaseLayout>
 // ============================================================================
 ---
 
@@ -235,8 +228,25 @@ $$;</code></pre>
       <section id="analisis-critico">
         <h3>4️⃣ Análisis crítico</h3>
         <p>
-          <!-- TODO: reflexión personal sobre dificultades encontradas,
-               errores de sintaxis y aprendizaje obtenido -->
+          Al inicio no entendía por qué usar <code>PERFORM</code> y no
+          <code>SELECT</code>. Luego comprendí que <code>PERFORM</code> se usa
+          cuando no necesitas guardar el valor retornado, solo ejecutar la
+          función.
+        </p>
+        <p>
+          También confundía <code>SELECT INTO</code>, pensando que era como en
+          SQL estándar para crear tablas, pero en PL/pgSQL se utiliza para
+          guardar el resultado de una consulta dentro de una variable local.
+        </p>
+        <p>
+          Durante la sintaxis, tuve pequeños errores habituales con los
+          caracteres <code>;</code> y el cierre de los bloques de código con
+          <code>$$</code>.
+        </p>
+        <p>
+          Aprendí que es mejor poner las validaciones a nivel de base de
+          datos. Así, las reglas de negocio siempre se cumplen sin importar
+          qué aplicación o interfaz se conecte a la base de datos.
         </p>
       </section>
 
@@ -246,7 +256,21 @@ $$;</code></pre>
       <section id="conclusiones">
         <h3>5️⃣ Conclusiones</h3>
         <p>
-          <!-- TODO: conclusiones en palabras propias -->
+          Lo que más me llevo del taller es el hecho de cómo en una base de
+          datos se puede técnicamente programar; no es solo para agregar o
+          quitar datos, la verdad me impresiona todo lo que se podría hacer
+          con las consultas.
+        </p>
+        <p>
+          En cuanto a programar dentro de la base de datos, veo la utilidad de
+          quitarle cierta carga al backend, y creo que traer los datos podría
+          llegar a ser más eficiente que cuando uno hace las consultas desde
+          el backend, aunque lo probaré en el proyecto si llega a ser el caso.
+        </p>
+        <p>
+          Gracias a PL/pgSQL tienes cierta libertad en cuanto a cómo quieres
+          agregar o buscar datos, y así mismo puedes controlar procesos con
+          excepciones para evitar errores en inventarios.
         </p>
       </section>
     </main>
