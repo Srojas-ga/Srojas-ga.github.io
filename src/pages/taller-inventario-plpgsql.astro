@@ -2,23 +2,17 @@
 // ============================================================================
 // PÁGINA: Taller – Sistema Básico de Inventario (PL/pgSQL)
 // ----------------------------------------------------------------------------
-// Esta página se genera como una ruta nueva de tu sitio Astro.
-// Al guardar este archivo como:
+// Guarda este archivo como:
 //    src/pages/taller-inventario-plpgsql.astro
-// quedará disponible automáticamente en:
+// y quedará disponible en:
 //    https://srojas-ga.github.io/taller-inventario-plpgsql
 //
-// Si tu proyecto (Codefolio) usa un layout compartido (menú, footer, fuentes,
-// tema oscuro/claro, etc.), reemplaza el <html>...</html> de abajo por tu
-// layout habitual, por ejemplo:
-//
+// Si tu proyecto usa un layout compartido, reemplaza el <html>...</html> por:
 //   import BaseLayout from "../layouts/BaseLayout.astro";
 //   ---
 //   <BaseLayout title="Taller – Sistema Básico de Inventario (PL/pgSQL)">
 //     ...todo el contenido de <main> tal cual...
 //   </BaseLayout>
-//
-// Revisa el nombre real de tu layout en src/layouts/ y ajusta el import.
 // ============================================================================
 ---
 
@@ -40,77 +34,199 @@
 
       <!-- ================================================================
            1. INTRODUCCIÓN
-           - Qué es PL/pgSQL
-           - Diferencia entre función y procedimiento
       ================================================================= -->
       <section id="introduccion">
         <h3>1️⃣ Introducción</h3>
         <p>
-          <!-- TODO: explicar qué es PL/pgSQL y la diferencia entre función y procedimiento -->
+          PL/pgSQL es un lenguaje que permite escribir lógica de programación
+          directamente dentro de PostgreSQL. Es decir, la base de datos no solo
+          guarda datos, sino que también puede tomar decisiones, validar
+          información y mostrar mensajes de error por sí sola.
+        </p>
+        <p>
+          Una función devuelve un valor, mientras que un procedimiento realiza
+          una acción (como descontar el inventario) y no devuelve nada. En este
+          taller se usan funciones para consultar y validar, y un procedimiento
+          para hacer el descuento.
         </p>
       </section>
 
       <!-- ================================================================
            2. DESARROLLO TÉCNICO
-           - Parte 1: Modelo de datos (tabla productos + preguntas)
-           - Parte 2: Función consultar_stock (SELECT INTO, RAISE EXCEPTION)
-           - Parte 3: Función validar_disponibilidad
-           - Parte 4: Procedimiento descontar_inventario
       ================================================================= -->
       <section id="desarrollo-tecnico">
         <h3>2️⃣ Desarrollo técnico</h3>
 
         <h4>🔴 Parte 1 – Modelo de Datos</h4>
-        <pre><code>-- TODO: pegar aquí el CREATE TABLE productos + INSERTs de prueba</code></pre>
+        <pre><code>CREATE TABLE productos (
+  id_producto SERIAL PRIMARY KEY,
+  nombre VARCHAR(50) NOT NULL,
+  precio NUMERIC(10,2) CHECK (precio&gt;0),
+  stock INT CHECK (stock&gt;=0)
+);
+
+INSERT INTO productos (nombre, precio, stock) VALUES
+ ('Laptop Lenovo', 2500000.00, 10),
+ ('Mouse', 45000.00, 1),
+ ('Monitor Gaming', 120000.00, 0);</code></pre>
         <p>
-          <!-- TODO: responder
-               1. ¿Por qué el precio tiene restricción CHECK?
-               2. ¿Por qué el stock no puede ser negativo?
-               3. ¿Qué problema empresarial se evita con estas restricciones? -->
+          <strong>¿Por qué el precio tiene restricción CHECK?</strong><br />
+          Porque el precio debe ser mayor a 0.
+        </p>
+        <p>
+          <strong>¿Por qué el stock no puede ser negativo?</strong><br />
+          Porque la tabla lo restringe con <code>stock &gt;= 0</code>.
+        </p>
+        <p>
+          <strong>¿Qué problema empresarial se evita con estas restricciones?</strong><br />
+          Se evitan datos incorrectos desde el principio.
         </p>
 
         <h4>🟢 Parte 2 – Función: Consultar Stock</h4>
-        <pre><code>-- TODO: pegar aquí la función de consulta de stock</code></pre>
+        <pre><code>CREATE OR REPLACE FUNCTION consultar_stock(p_id_producto INT)
+RETURNS INT
+LANGUAGE plpgsql
+AS $$
+DECLARE
+  v_stock INT;
+BEGIN
+  SELECT stock INTO v_stock
+  FROM productos
+  WHERE id_producto = p_id_producto;
+
+  IF v_stock IS NULL THEN
+    RAISE EXCEPTION 'Producto con ID % no existe.', p_id_producto;
+  END IF;
+
+  RETURN v_stock;
+END;
+$$;</code></pre>
         <p>
-          <!-- TODO: explicar qué hace SELECT INTO y qué pasa si el producto no existe -->
+          <strong>¿Qué hace SELECT INTO?</strong><br />
+          Se usa para guardar el resultado de la consulta en una variable, y
+          luego se revisa si llegó vacía (NULL).
+        </p>
+        <p>
+          <strong>¿Qué sucede cuando no se encuentra el producto?</strong><br />
+          Se lanza un mensaje de error al no encontrar el producto.
         </p>
 
         <h4>🟡 Parte 3 – Función: Validar Disponibilidad</h4>
-        <pre><code>-- TODO: pegar aquí la función de validación</code></pre>
+        <pre><code>CREATE OR REPLACE FUNCTION validar_disponibilidad(
+  p_id_producto INT, p_cantidad INT
+)
+RETURNS BOOLEAN
+LANGUAGE plpgsql
+AS $$
+DECLARE
+  v_stock INT;
+BEGIN
+  SELECT stock INTO v_stock
+  FROM productos
+  WHERE id_producto = p_id_producto;
+
+  IF v_stock IS NULL THEN
+    RAISE EXCEPTION 'Producto con ID % no existe.', p_id_producto;
+  END IF;
+
+  IF v_stock &lt; p_cantidad THEN
+    RAISE EXCEPTION 'Stock insuficiente. Disponible: %, Solicitado: %', v_stock, p_cantidad;
+  END IF;
+
+  RETURN TRUE;
+END;
+$$;</code></pre>
         <p>
-          <!-- TODO: responder
-               1. ¿Por qué es mejor validar antes de actualizar?
-               2. ¿Qué pasaría si no existiera esta función? -->
+          <strong>¿Por qué es mejor validar antes de actualizar?</strong><br />
+          Porque primero se debe validar que el producto exista y que luego
+          haya suficiente stock.
+        </p>
+        <p>
+          <strong>¿Qué pasaría si no existiera esta función?</strong><br />
+          Simplemente la operación fallaría, sin causar ningún error claro.
         </p>
 
         <h4>🔵 Parte 4 – Procedimiento: Descontar Inventario</h4>
-        <pre><code>-- TODO: pegar aquí el procedimiento de descuento de inventario</code></pre>
+        <pre><code>CREATE OR REPLACE PROCEDURE descontar_inventario(
+  p_id_producto INT,
+  p_cantidad INT
+)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+  v_stock_actual INT;
+BEGIN
+  PERFORM validar_disponibilidad(p_id_producto, p_cantidad);
+
+  SELECT stock INTO v_stock_actual
+  FROM productos WHERE id_producto = p_id_producto;
+
+  UPDATE productos
+  SET stock = stock - p_cantidad
+  WHERE id_producto = p_id_producto;
+
+  RAISE NOTICE 'Venta exitosa. ID: %. Anterior: %. Descontado: %. Actual: %.',
+    p_id_producto, v_stock_actual, p_cantidad, (v_stock_actual - p_cantidad);
+EXCEPTION
+  WHEN OTHERS THEN
+    RAISE EXCEPTION 'Error al descontar inventario: %', SQLERRM;
+END;
+$$;</code></pre>
         <p>
-          <!-- TODO: responder
-               1. ¿Por qué se implementa como procedimiento y no como función?
-               2. ¿Qué ocurre si falla después de iniciar la operación?
-               3. ¿Se mantiene la consistencia del inventario? -->
+          <strong>¿Por qué se implementa como procedimiento y no como función?</strong><br />
+          Porque su propósito es ejecutar una acción, es decir, el UPDATE.
+        </p>
+        <p>
+          <strong>¿Qué ocurre si falla después de iniciar la operación?</strong><br />
+          El bloque EXCEPTION sirve para capturar cualquier error que ocurra y
+          lo muestra si algo sale mal.
+        </p>
+        <p>
+          <strong>¿Se mantiene la consistencia del inventario?</strong><br />
+          Sí, el UPDATE solo se ejecuta si todo el proceso fue exitoso.
         </p>
       </section>
 
       <!-- ================================================================
            3. PRUEBAS REALIZADAS
-           - Caso exitoso / stock insuficiente / producto inexistente
       ================================================================= -->
       <section id="pruebas">
         <h3>3️⃣ Pruebas realizadas</h3>
 
         <h4>🧪 Caso 1 – Stock suficiente</h4>
-        <p><!-- TODO: qué ocurrió, mensaje del sistema, ¿se modificó la BD? --></p>
+        <p>
+          <strong>¿Qué ocurrió?</strong> Se vendieron 2 unidades del producto
+          con id 1 (Laptop Lenovo), que tenía 8 unidades disponibles.<br />
+          <strong>¿Qué mensaje mostró el sistema?</strong> "Venta exitosa.
+          Anterior: 8. Descontado: 2. Actual: 6."<br />
+          <strong>¿Se modificó la base de datos?</strong> Sí, el stock bajó de
+          8 a 6.
+        </p>
+        <img src="/assets/taller-inventario/caso1.png" alt="Caso 1 - venta exitosa" />
 
         <h4>🧪 Caso 2 – Stock insuficiente</h4>
-        <p><!-- TODO: qué ocurrió, mensaje del sistema, ¿se modificó la BD? --></p>
+        <p>
+          <strong>¿Qué ocurrió?</strong> Se intentaron pedir 5 unidades del
+          Monitor Gaming (id 3), que tenía stock 0.<br />
+          <strong>¿Qué mensaje mostró el sistema?</strong> "Stock
+          insuficiente. Disponible: 0, Solicitado: 5."<br />
+          <strong>¿Se modificó la base de datos?</strong> No, el stock siguió
+          en 0 porque el sistema detectó que no había suficiente cantidad
+          antes de hacer cualquier cambio.
+        </p>
+        <img src="/assets/taller-inventario/caso2.png" alt="Caso 2 - stock insuficiente" />
 
         <h4>🧪 Caso 3 – Producto inexistente</h4>
-        <p><!-- TODO: qué ocurrió, mensaje del sistema, ¿se modificó la BD? --></p>
-
-        <!-- TODO: si quieres, agrega aquí capturas de pantalla como evidencia,
-             por ejemplo: <img src="/assets/taller-inventario/prueba1.png" alt="Caso 1" /> -->
+        <p>
+          <strong>¿Qué ocurrió?</strong> Se intentó hacer una venta con un id
+          de producto que no existe (99).<br />
+          <strong>¿Qué mensaje mostró el sistema?</strong> "Producto con ID 99
+          no existe."<br />
+          <strong>¿Se modificó la base de datos?</strong> No, porque el
+          sistema verificó primero que el producto existiera antes de intentar
+          cualquier cambio.
+        </p>
+        <img src="/assets/taller-inventario/caso3.png" alt="Caso 3 - producto inexistente" />
       </section>
 
       <!-- ================================================================
@@ -161,6 +277,13 @@
         padding: 1rem;
         border-radius: 6px;
         overflow-x: auto;
+      }
+      section#pruebas img {
+        max-width: 100%;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+        margin: 0.5rem 0 1.5rem;
+        display: block;
       }
     </style>
   </body>
