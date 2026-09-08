@@ -1,7 +1,6 @@
 ---
 const { selectedItem } = Astro.props;
 ---
-
 <aside
   data-animation="default"
   data-collapse="medium"
@@ -26,7 +25,6 @@ const { selectedItem } = Astro.props;
         </div>
       </div>
     </a>
-
     <nav role="navigation" class="w-nav-menu">
       <a
         href="/"
@@ -59,24 +57,7 @@ const { selectedItem } = Astro.props;
         />
         <div>Personal Info</div>
       </a>
-      <a
-       
-      <a
-        href="/personal-projects"
-        class={`nav-link-container w-inline-block ${
-          selectedItem === 'personal-projects' ? 'w--current' : ''
-        }`}
-      >
-        <img
-          src="/assets/favorite.svg"
-          loading="eager"
-          alt=""
-          class="nav-link-image"
-        />
-        <div>Evidence</div>
-      </a>
     </nav>
-
     <div
       class="navbar-icon-button w-nav-button"
       style="-webkit-user-select: text;"
@@ -92,7 +73,6 @@ const { selectedItem } = Astro.props;
       />
     </div>
   </div>
-
   <script>
     import { setupNav } from '../scripts/nav.js';
     
@@ -101,7 +81,6 @@ const { selectedItem } = Astro.props;
       if (cleanup) cleanup();
       cleanup = setupNav();
     });
-
     document.addEventListener('astro:before-swap', () => {
       if (cleanup) cleanup();
     });
